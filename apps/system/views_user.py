@@ -16,7 +16,7 @@ class LoginView(View):
 
     def get(self, request):
         if not request.user.is_authenticated:
-            return render(request, 'system/users/login.html')
+            return render(request, 'login.html')
         else:
             return HttpResponseRedirect('/')
 
@@ -38,7 +38,7 @@ class LoginView(View):
                 ret['msg'] = '用户名或密码错误！'
         else:
             ret['msg'] = '用户和密码不能为空！'
-        return render(request, 'system/users/login.html', ret)
+        return render(request, 'login.html', ret)
 
 
 class LogoutView(View):
