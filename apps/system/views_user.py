@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .forms import LoginForm
+from .mixin import LoginRequiredMixin
 
 
-class IndexView(View):
+class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, 'index.html')
@@ -16,7 +17,7 @@ class LoginView(View):
 
     def get(self, request):
         if not request.user.is_authenticated:
-            return render(request, 'login.html')
+            return render(request, 'system/users/login.html')
         else:
             return HttpResponseRedirect('/')
 
@@ -38,7 +39,7 @@ class LoginView(View):
                 ret['msg'] = '用户名或密码错误！'
         else:
             ret['msg'] = '用户和密码不能为空！'
-        return render(request, 'login.html', ret)
+        return render(request, 'system/users/login.html', ret)
 
 
 class LogoutView(View):
