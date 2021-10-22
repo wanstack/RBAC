@@ -18,6 +18,7 @@ class Menu(models.Model):
 
     class Meta:
         verbose_name = '菜单'
+        app_label = 'system'
         verbose_name_plural = verbose_name
 
     @classmethod

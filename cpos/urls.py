@@ -21,8 +21,8 @@ from django.views.static import serve
 from apps.system.views_user import IndexView, LoginView, LogoutView
 
 urlpatterns = [
-    path('deploy/', include('apps.deploy.urls')),
-    path('', include('apps.system.urls')),
+    path('deploy/', include('apps.deploy.urls', namespace='deploy')),
+    path('system/', include('apps.system.urls', namespace='system')),
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(), name='login'),

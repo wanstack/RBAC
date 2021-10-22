@@ -10,7 +10,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>CPOS</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>COPS管理系统</b></span>
+            <span class="logo-lg"><b>CPOS管理系统</b></span>
         </a>
 
         <!-- Header Navbar -->
@@ -60,7 +60,7 @@
                                 <!-- The user image in the navbar-->
                                 <img src="/media/{{ request.user.image }}" class="user-image" alt="用户头像">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">{{ request.user.name }}</span>
+                                <span class="hidden-xs">{{ request.user.username }}</span>
                                 <!--上面 request.user 会返回用户姓名，user.models.UserProfile.Meta定义该值-->
 
                             </a>
@@ -70,7 +70,7 @@
                                 <img src="/media/{{ request.user.image }}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    {{ request.user.name }} - {{ request.user.department.title }}
+                                    {{ request.user.username }} - {{ request.user.department.title }}
                                     <small>{{ request.user.email }}</small>
                                 </p>
                             </li>
@@ -105,7 +105,7 @@
     <footer class="main-footer text-center">
         <strong>
 
-              Copyright © 2016-2017 xx科技
+              Copyright © 2021-2028 xx科技
 
         </strong>
         技术支持：<a href="https://cyberpeace.cn" target="_blank">xxx</a>
