@@ -72,7 +72,8 @@ class LogoutView(View):
         return HttpResponseRedirect(reverse('login'))
 
 
-class UserView(LoginRequiredMixin, TemplateView):
+from apps.common.views_custom import BreadcrumbMixin
+class UserView(LoginRequiredMixin, BreadcrumbMixin, TemplateView):
     template_name = 'system/users/user.html'
 
 

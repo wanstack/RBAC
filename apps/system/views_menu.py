@@ -4,7 +4,6 @@ from django.views.generic.base import View
 from django.views.generic import ListView, UpdateView
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from apps.common.views_custom import SimpleInfoCreateView
 from apps.system.mixin import LoginRequiredMixin
 from apps.system.models import Menu
 from apps.system.forms import MenuForm
@@ -12,7 +11,6 @@ from django.views.generic import CreateView
 from django.http import Http404
 from apps.system.mixin import LoginRequiredMixin
 from apps.system.models import Menu
-
 
 # class MenuCreateView(LoginRequiredMixin, View):
 #
@@ -29,48 +27,35 @@ from apps.system.models import Menu
 #             res['result'] = True
 #         return HttpResponse(json.dumps(res), content_type='application/json')
 
-class MenuCreateView(SimpleInfoCreateView):
+from django.views.generic import ListView
+
+from .mixin import LoginRequiredMixin
+from apps.common.views_custom import CPOSCreateView, CPOSUpdateView
+from .models import Menu
+
+
+class MenuCreateView(CPOSCreateView):
     model = Menu
     fields = '__all__'
-    extra_context = dict(menu_all=Menu.objects.all())
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu_all'] = Menu.objects.all()
+        return super().get_context_data(**kwargs)
 
 
-class MenuListView(LoginRequiredMixin, ListView):
+from apps.common.views_custom import BreadcrumbMixin
+
+
+class MenuListView(LoginRequiredMixin, BreadcrumbMixin, ListView):
     model = Menu
     context_object_name = 'menu_all'
 
 
-class MenuUpdateView(LoginRequiredMixin, UpdateView):
+class MenuUpdateView(CPOSUpdateView):
     model = Menu
     fields = '__all__'
     template_name_suffix = '_update'
 
-    def get_object(self, queryset=None):
-
-        if queryset is None:
-            queryset = self.get_queryset()
-        if 'id' in self.request.GET and self.request.GET['id']:
-            queryset = queryset.filter(id=int(self.request.GET['id']))
-        elif 'id' in self.request.POST and self.request.POST['id']:
-            queryset = queryset.filter(id=int(self.request.POST['id']))
-        else:
-            raise AttributeError("Generic detail view %s must be called with id. "
-                                 % self.__class__.__name__)
-        try:
-            obj = queryset.get()
-        except queryset.model.DoesNotExist:
-            raise Http404("No %(verbose_name)s found matching the query" %
-                          {'verbose_name': queryset.model._meta.verbose_name})
-        return obj
-
-    def post(self, request, *args, **kwargs):
-
-        self.object = self.get_object()
-        res = dict(result=False)
-        form = self.get_form()
-        if form.is_valid():
-            form.save()
-            res['result'] = True
-        return HttpResponse(json.dumps(res), content_type='application/json')
-
-
+    def get_context_data(self, **kwargs):
+        kwargs['menu_all'] = Menu.objects.all()
+        return super().get_context_data(**kwargs)

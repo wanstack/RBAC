@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.system.middleware.MenuCollection',
+    'apps.system.middleware.RbacMiddleware',
 ]
 
 ROOT_URLCONF = 'cpos.urls'
@@ -78,17 +80,23 @@ WSGI_APPLICATION = 'cpos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'cpos',
+#         'USER': 'cpos_user',
+#         'PASSWORD': 'cpos_password',
+#         'HOST': '10.100.7.98',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cpos',
-        'USER': 'cpos_user',
-        'PASSWORD': 'cpos_password',
-        'HOST': '10.100.7.98',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -138,3 +146,17 @@ LOGIN_URL = '/login/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SAFE_URL = [r'^/$',
+            '/login/',
+            '/logout',
+            '/index/',
+            '/media/',
+            '/admin/',
+            '/ckeditor/',
+            '/system/',
+            ]
+
+SESSION_COOKIE_AGE = 60 * 20 # session有效时间为20分钟
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True # 关闭浏览器Cookie失效
+SESSION_SAVE_EVERY_REQUEST = True # 以上两个配置需要配合这一条才能够生效

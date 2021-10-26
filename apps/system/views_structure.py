@@ -12,7 +12,10 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class StructureView(LoginRequiredMixin, TemplateView):
+from apps.common.views_custom import BreadcrumbMixin
+
+class StructureView(LoginRequiredMixin, BreadcrumbMixin, TemplateView):
+
     template_name = 'system/structure/structure.html'
 
 
